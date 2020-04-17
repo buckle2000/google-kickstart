@@ -1,0 +1,2 @@
+#!/usr/bin/fish
+set -x PATH $PATH (realpath (dirname (status -f)))

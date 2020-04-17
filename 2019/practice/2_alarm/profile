@@ -1,2 +1,0 @@
-#!/bin/sh
-python -m cProfile -o profile sol.py < in2 > out2

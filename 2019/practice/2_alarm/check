@@ -1,7 +1,0 @@
-#!/usr/bin/fish
-if diff -y out1 (python3.5 sol.py < in1 | psub)
-	echo ✓ Passed
-else
-	echo ✗ Failed
-	exit 1
-end

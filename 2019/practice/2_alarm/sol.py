@@ -1,20 +1,22 @@
 def get_ints():
     return map(int, input().split())
 
-
-def _gen_subarray(A, N):
+def _gen_subarray_power(A, i, N):
     for L in range(0, N):  # inclusive
+        last_power = None
         for H in range(L + 1, N + 1):  # exclusive
-            yield A[L:H]
-
+            if last_power is None:
+                power = sum(A[p] * (p - L + 1) ** i for p in range(L, H))
+            else:
+                p = H-1
+                power = last_power + A[p] * (p - L + 1) ** i
+            last_power = power
+            # print(L, H, i, power)
+            yield power
 
 def calc_power(A, i, N):
     """Naive"""
-
-    def _helper(subA):
-        return sum(a * (p + 1) ** i for p, a in enumerate(subA))
-
-    return sum(map(_helper, _gen_subarray(A, N)))
+    return sum(_gen_subarray_power(A, i, N))
 
 
 def main(case_id):
