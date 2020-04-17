@@ -1,22 +1,25 @@
 def get_ints():
     return map(int, input().split())
 
-def _gen_subarray_power(A, i, N):
-    for L in range(0, N):  # inclusive
-        last_power = None
-        for H in range(L + 1, N + 1):  # exclusive
-            if last_power is None:
-                power = sum(A[p] * (p - L + 1) ** i for p in range(L, H))
-            else:
-                p = H-1
-                power = last_power + A[p] * (p - L + 1) ** i
-            last_power = power
-            # print(L, H, i, power)
-            yield power
 
-def calc_power(A, i, N):
+def calc_power(A, N, pow_cache):
     """Naive"""
-    return sum(_gen_subarray_power(A, i, N))
+
+    def _gen_subarray_power():
+        for L in range(0, N):  # inclusive
+            last_power = None
+            for H in range(L + 1, N + 1):  # exclusive
+                if last_power is None:
+                    power = sum(A[p] * pow_cache[p - L] for p in range(L, H))
+                else:
+                    p = H - 1
+                    power = last_power + A[p] * pow_cache[p - L]
+                power = power
+                last_power = power
+                # print(L, H, i, power)
+                yield power % 1000000007
+
+    return sum(_gen_subarray_power())
 
 
 def main(case_id):
@@ -33,8 +36,17 @@ def main(case_id):
     # N: length of A
     # K: 1...Kth power to sum up
     # A: array
-    powers = [calc_power(A, i, N) for i in range(1, K + 1)]
-    power = sum(powers) % 1000000007
+    # pow_cache = None
+    def gen_powers():
+        pow_cache = [1 for j in range(N)]  # pow cache for i; j**i == pow_cache[j+1]
+        for _i in range(1, K + 1):
+            # pow_cache = [(j + 1) ** i for j in range(N)]
+            for j in range(N):
+                pow_cache[j] *= j + 1
+                pow_cache[j] %= 1000000007
+            yield calc_power(A, N, pow_cache) % 1000000007
+
+    power = sum(gen_powers()) % 1000000007
     print("Case #{}: {}".format(case_id, power))
     # print("Powers:", powers)
     # print(f"Case #{case_id}: {max_beauty} <{L} {M} {H}>")
