@@ -1,6 +1,6 @@
 #!/usr/bin/fish
 if ks-check in1 out1
-    python3.5 sol.py < in2 > out2
+    python sol.py < in2 > out2
 else
     echo Test failed. Cowardly refuse to generate out2.
 end

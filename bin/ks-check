@@ -1,20 +1,21 @@
 #!/usr/bin/fish
-begin
-	if test (count $argv) -lt 2
-		echo Validate program with given input and output
-		echo Usage: (status -f) INPUT OUTPUT
-		exit 2
-	end
+function assert-readable
 	if test ! -r $argv[1]
 		echo $argv[1] is not a file or not readable
 		exit 2
 	end
-	if test ! -r $argv[2]
-		echo $argv[2] is not a file or not readable
+end
+begin
+	if test (count $argv) -lt 3
+		echo Validate program with given input and output
+		echo Usage: (status -f) PROGRAM INPUT OUTPUT
 		exit 2
 	end
+	assert-readable $argv[1]
+	assert-readable $argv[2]
+	assert-readable $argv[3]
 end >&2
-if diff -y $argv[2] (python3.5 sol.py < $argv[1] | psub)
+if diff -y $argv[3] (python $argv[1] < $argv[2] | psub)
 	echo ✓ Passed
 else
 	echo ✗ Failed

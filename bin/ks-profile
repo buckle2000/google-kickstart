@@ -1,17 +1,21 @@
 #!/usr/bin/fish
 set out profile.prof
-begin
-	if test (count $argv) -lt 1
-		echo Profile program with given input to $out, then open snakeviz
-		echo Usage: (status -f) INPUT
-		exit 2
-	end
+function assert-readable
 	if test ! -r $argv[1]
 		echo $argv[1] is not a file or not readable
 		exit 2
 	end
+end
+begin
+	if test (count $argv) -lt 2
+		echo Profile program with given input to $out, then open snakeviz
+		echo Usage: (status -f) PROGRAM INPUT
+		exit 2
+	end
+	assert-readable $argv[1]
+	assert-readable $argv[2]
 end >&2
-python -m cProfile -o $out sol.py < $argv[1]
+python -m cProfile -o $out $argv[1] < $argv[2]
 and begin
     echo $out
     snakeviz $out

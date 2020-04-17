@@ -21,6 +21,7 @@ def calc_power(A, N, pow_cache):
 
     return sum(_gen_subarray_power())
 
+import numpy as np
 
 def main(case_id):
     N, K, x, y, C, D, Ex, Ey, F = get_ints()
@@ -38,12 +39,12 @@ def main(case_id):
     # A: array
     # pow_cache = None
     def gen_powers():
-        pow_cache = [1 for j in range(N)]  # pow cache for i; j**i == pow_cache[j+1]
+        pow_cache = np.full(N, 1) # pow cache for i; j**i == pow_cache[j+1]
+        stair = np.arange(N, dtype=int) + 1
         for _i in range(1, K + 1):
             # pow_cache = [(j + 1) ** i for j in range(N)]
-            for j in range(N):
-                pow_cache[j] *= j + 1
-                pow_cache[j] %= 1000000007
+            pow_cache *= stair
+            pow_cache %= 1000000007
             yield calc_power(A, N, pow_cache) % 1000000007
 
     power = sum(gen_powers()) % 1000000007
