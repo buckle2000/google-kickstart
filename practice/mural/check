@@ -1,5 +1,20 @@
 #!/usr/bin/fish
-if diff -y out1 (python3.5 sol.py < in1 | psub)
+begin
+	if test (count $argv) -lt 2
+		echo Validate program with given input and output
+		echo Usage: (status -f) INPUT OUTPUT
+		exit 2
+	end
+	if test ! -r $argv[1]
+		echo $argv[1] is not a file or not readable
+		exit 2
+	end
+	if test ! -r $argv[2]
+		echo $argv[2] is not a file or not readable
+		exit 2
+	end
+end >&2
+if diff -y $argv[2] (python3.5 sol.py < $argv[1] | psub)
 	echo ✓ Passed
 else
 	echo ✗ Failed
