@@ -1,0 +1,9 @@
+{
+	"dependencies": {
+		"fluent-asserts": "~>0.13.3"
+	},
+	"name": "competitive-algorithms",
+	"targetType": "sourceLibrary",
+	"importPaths": ["."],
+	"sourcePaths": ["."]
+}

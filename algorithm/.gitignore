@@ -1,0 +1,15 @@
+.dub
+docs.json
+__dummy.html
+docs/
+/competitive-algorithms
+competitive-algorithms.so
+competitive-algorithms.dylib
+competitive-algorithms.dll
+competitive-algorithms.a
+competitive-algorithms.lib
+competitive-algorithms-test-*
+*.exe
+*.o
+*.obj
+*.lst
