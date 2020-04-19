@@ -15,7 +15,7 @@ begin
 	assert-readable $argv[2]
 	assert-readable $argv[3]
 end >&2
-if diff -y $argv[3] (python $argv[1] < $argv[2] | psub)
+if diff $argv[3] (eval $argv[1] < $argv[2] | psub)
 	echo ✓ Passed
 else
 	echo ✗ Failed

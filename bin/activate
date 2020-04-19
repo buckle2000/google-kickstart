@@ -1,3 +1,3 @@
 #!/usr/bin/fish
 set -x PATH $PATH (realpath (dirname (status -f)))
-pipenv shell
+pipenv shell --fancy
