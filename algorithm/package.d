@@ -18,6 +18,28 @@ uint readfln(alias format, S = string, Data...)(auto ref Data data, dchar termin
     return formattedRead(format, line, data);
 }
 
+
+/**
+* Make a struct looks like an array.
+* ------------------
+    struct Item
+    {
+        int cost;
+        int damage;
+        int armor;
+        mixin likeArray!(int);
+    }
+*/
+mixin template likeArray(T)
+{
+    @property inout T[] data() const
+    {
+        return cast(T[this.sizeof / T.sizeof]) this;
+    }
+
+    alias data this;
+}
+
 /**
 * Is this ASCII character invisible?
 */
