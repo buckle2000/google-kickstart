@@ -1,0 +1,2 @@
+#!/usr/bin/fish
+dub test --main-file test.d

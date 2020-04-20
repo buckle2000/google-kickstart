@@ -1,0 +1,4 @@
+name "aoc_15"
+dependency "fluent-asserts" version="~>0.13.3"
+sourcePaths "."
+importPaths "."

@@ -1,2 +1,10 @@
 .vscode/
 profile.prof
+.dub
+docs.json
+__dummy.html
+*-test-library
+*.exe
+*.o
+*.obj
+*.lst
