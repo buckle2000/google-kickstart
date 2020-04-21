@@ -1,0 +1,111 @@
+#!/usr/bin/env -S rdmd -g
+
+enum Effect
+{
+    Shield,
+    Poison,
+    Recharge,
+}
+
+int[Effect.max+1] effectDurations = [6, 6, 5];
+
+void main()
+{
+    int hp = 10;
+    int mana = 250;
+    int boss_hp = 13;
+    int boss_damage = 8;
+    int armor;
+    int[Effect.max+1] effectTimers;
+    void inspect()
+    {
+        writefln("- Player has %d hit points, %d armor, %d mana", hp, armor, mana);
+        writefln("- Boss has %d hit points", boss_hp);
+    }
+
+    void startTurn()
+    {
+        armor = 0;
+        if (effectTimers[Effect.Shield])
+        {
+            writefln("Shield grants 7 armor; its timer is now %d.", effectTimers[Effect.Shield] - 1);
+            armor = 7;
+        }
+        inspect();
+        bool dirty = false;
+        if (effectTimers[Effect.Recharge] > 0)
+        {
+            mana += 101;
+            writefln("Recharge replenishes 101 mana; its timer is now %d.",
+                    effectTimers[Effect.Recharge] - 1);
+            dirty = true;
+        }
+        if (effectTimers[Effect.Poison] > 0)
+        {
+            boss_hp -= 3;
+            writefln("Poison deals 3 damage; its timer is now %d.", effectTimers[Effect.Poison] - 1);
+            dirty = true;
+        }
+        if (dirty)
+            inspect();
+        foreach (ref timer; effectTimers)
+        {
+            if (timer > 0)
+                --timer;
+        }
+    }
+
+    void playerAction()
+    {
+        writeln("0: Magic Missle, ");
+        write("Choose a spell to cast: ");
+        // switch (readln().strip);
+        // writefln("Player casts Poison.");
+    }
+
+    void bossAction()
+    {
+        hp -= boss_damage;
+        writefln("Boss attacks for %d damage.", boss_damage);
+    }
+
+    bool terminate()
+    {
+        if (hp <= 0)
+        {
+            writeln("The boss kills you. You lose.");
+            return true;
+        }
+        if (boss_hp <= 0)
+        {
+            writeln("You kill the boss. You win.");
+            return true;
+        }
+        return false;
+    }
+
+    while (true)
+    {
+        writefln("-- Player turn --");
+        startTurn();
+        if (terminate())
+            break;
+        playerAction();
+        if (terminate())
+            break;
+        writeln();
+
+        writefln("-- Boss turn --");
+        startTurn();
+        if (terminate())
+            break;
+        bossAction();
+        if (terminate())
+            break;
+        writeln();
+    }
+}
+
+import std.stdio;
+import std.conv;
+import std.algorithm;
