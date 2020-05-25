@@ -1,0 +1,2 @@
+#!/usr/bin/fish
+ls . | entr -c ks-check $argv

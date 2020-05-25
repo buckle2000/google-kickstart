@@ -11,12 +11,12 @@ begin
 		echo Usage: (status -f) PROGRAM INPUT OUTPUT
 		exit 2
 	end
-	assert-readable $argv[1]
+	# assert-readable $argv[1]
 	assert-readable $argv[2]
 	assert-readable $argv[3]
 end >&2
-if diff $argv[3] (eval $argv[1] < $argv[2] | psub)
-	echo ✓ Passed
+if diff -y -W $COLUMNS $argv[3] (eval $argv[1] < $argv[2] | psub)
+	echo \n✓ Passed
 else
-	echo ✗ Failed
+	echo \n✗ Failed
 end

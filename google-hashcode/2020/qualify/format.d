@@ -10,9 +10,9 @@ struct Library
     int[] books; // ID
 }
 
-void input(ref int[] bookScores, ref Library[] libraries)
+void input(ref int[] bookScores, ref Library[] libraries, ref int numDay)
 {
-    int numBook, numLibrary, numDay;
+    int numBook, numLibrary;
     readln.formattedRead!"%d %d %d"(numBook, numLibrary, numDay);
     bookScores = new int[numBook];
     libraries = new Library[numLibrary];
@@ -31,11 +31,14 @@ void main()
 {
     int[] bookScores;
     Library[] libraries;
-    input(bookScores, libraries);
+    int numDay;
+    input(bookScores, libraries, numDay);
     write(`{"scores":`);
     write(toJSON(bookScores));
     write(`,"libraries":`);
     write(toJSON(libraries));
+    write(`,"days":`);
+    write(toJSON(numDay));
     write(`}`);
 }
 
